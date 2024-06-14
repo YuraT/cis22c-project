@@ -69,3 +69,36 @@ void printTable(const vector<int>& widths, const vector<vector<string>>& data) {
     }
     cout << "\b┘\n";
 }
+
+void printHelp() {
+    static const vector<int> helpWidths = {5, 40};
+    static const vector<vector<string>> helpData = {
+            {"Key", "Command"},
+            {"H",   "Help"},
+            {"I",   "Insert a new record"},
+            {"F",   "File input: add data from a file"},
+            {"D",   "Delete one record"},
+            {"U",   "Undo delete"},
+            {"L",   "List all CPUs sorted by primary key"},
+            {"S",   "Search for a CPU by the primary key"},
+            {"W",   "Write data to a file"},
+            {"T",   "Hashtable statistics"},
+            {"Q",   "Quit"},
+            {"P",   "Hidden print option (do not show it in the menu: print indented tree)"},
+            {"Z",   "Hidden option (do not show it in the menu: display names of team members)"},
+    };
+    printTable(helpWidths, helpData);
+}
+
+void printTeam() {
+    static const vector<int> teamWidths = {40};
+    static const vector<vector<string>> teamData = {
+            {"Team Members"},
+            {"Kevin Cremin"},
+            {"Kevin Galvan Serrano"},
+            {"Joshiro Lawrence"},
+            {"Tuhin Mondal"},
+            {"Iurii Tatishchev"},
+    };
+    printTable(teamWidths, teamData);
+}

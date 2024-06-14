@@ -13,6 +13,8 @@ private:
     double baseClock;
 
 public:
+    CPU() : cpuId(""), releaseYear(0), coreCount(0), architecture(""), baseClock(0.0) {};
+
     CPU(std::string id, int year, int cores, std::string arch, double clock) :
             cpuId(std::move(id)),
             releaseYear(year),
@@ -20,7 +22,7 @@ public:
             architecture(std::move(arch)),
             baseClock(clock) {};
 
-    std::string getCpuId() const;
+    std::string getCpuId() const {  return cpuId; };
 
     int getReleaseYear() const;
 

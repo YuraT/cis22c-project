@@ -30,9 +30,9 @@ public:
 
     bool insert(const T &item, int h(const T&, int)) { throw std::logic_error("Not implemented: HashTable.insert()"); };
 
-    bool remove(const T &item, int h(const T&), int) { throw std::logic_error("Not implemented: HashTable.remove()"); };
+    bool remove(const T &item, int h(const T&, int)) { throw std::logic_error("Not implemented: HashTable.remove()"); };
 
-    bool search(const T &item, int h(const T&), int) { throw std::logic_error("Not implemented: HashTable.search()"); };
+    bool search(T& itemOut, const T &item, int h(const T&, int)) { throw std::logic_error("Not implemented: HashTable.search()"); };
 
     int getTotalCollisions() const { throw std::logic_error("Not implemented: HashTable.getTotalCollisions()"); };
 
