@@ -1,10 +1,10 @@
 #ifndef INC_08_TEAM_PROJECT_CPU_H
 #define INC_08_TEAM_PROJECT_CPU_H
 
-
 #include <string>
 
-class CPU {
+class CPU
+{
 private:
     std::string cpuId;
     int releaseYear;
@@ -13,16 +13,15 @@ private:
     double baseClock;
 
 public:
-    CPU() : cpuId(""), releaseYear(0), coreCount(0), architecture(""), baseClock(0.0) {};
+    CPU() : cpuId(""), releaseYear(0), coreCount(0), architecture(""), baseClock(0.0){};
 
-    CPU(std::string id, int year, int cores, std::string arch, double clock) :
-            cpuId(std::move(id)),
-            releaseYear(year),
-            coreCount(cores),
-            architecture(std::move(arch)),
-            baseClock(clock) {};
+    CPU(std::string id, int year, int cores, std::string arch, double clock) : cpuId(std::move(id)),
+                                                                               releaseYear(year),
+                                                                               coreCount(cores),
+                                                                               architecture(std::move(arch)),
+                                                                               baseClock(clock){};
 
-    std::string getCpuId() const {  return cpuId; };
+    std::string getCpuId() const { return cpuId; };
 
     int getReleaseYear() const;
 
@@ -59,9 +58,16 @@ public:
     friend int key_to_index(const CPU &key, int size);
 };
 
-int key_to_index(const CPU &key, int size) {
-    // TODO
-    return key.coreCount % size;
+/*~*~*~*
+ Hash function: takes the key and returns the index in the hash table
+ *~**/
+int key_to_index(const CPU &key, int size)
+{
+    std::string k = key.getCpuId();
+    int sum = 0;
+    for (int i = 0; k[i]; i++)
+        sum += k[i];
+    return sum % size;
 };
 
-#endif //INC_08_TEAM_PROJECT_CPU_H
+#endif // INC_08_TEAM_PROJECT_CPU_H
