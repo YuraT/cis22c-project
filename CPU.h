@@ -64,19 +64,18 @@ public:
         return os;
     }
 
-    friend int key_to_index(const CPU &key, int size);
+    friend int key_to_index(const CPU &key, int size) {
+        std::string k = key.getCpuId();
+        int sum = 0;
+        for (int i = 0; k[i]; i++)
+            sum += k[i];
+        return sum % size;
+    };
 };
 
 /*~*~*~*
  Hash function: takes the key and returns the index in the hash table
  *~**/
-int key_to_index(const CPU &key, int size)
-{
-    std::string k = key.getCpuId();
-    int sum = 0;
-    for (int i = 0; k[i]; i++)
-        sum += k[i];
-    return sum % size;
-};
+int key_to_index(const CPU &key, int size);
 
 #endif // INC_08_TEAM_PROJECT_CPU_H

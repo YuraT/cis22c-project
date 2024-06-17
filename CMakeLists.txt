@@ -18,4 +18,6 @@ add_executable(08_team_project main.cpp
         Stack.h
         StackNode.cpp
         StackNode.h
+        fio.h
+        fio.cpp
 )

@@ -32,13 +32,13 @@
 #include "HashTable.h"
 #include "BinarySearchTree.h"
 #include "Stack.h"
+#include "fio.h"
 
 using std::cin, std::cout, std::string, std::vector;
 
 void processInput(char command, HashTable<CPU> &table, BinarySearchTree<string> &tree, Stack<CPU> &stack);
 
-int main()
-{
+int main() {
     // Print help table for commands
     printHelp();
 
@@ -47,18 +47,15 @@ int main()
     Stack<CPU> undoStack;
 
     char command = ' ';
-    while (command != 'Q')
-    {
+    while (command != 'Q') {
         cout << "Enter an option (H - for help): ";
         cin >> command;
         command = toupper(command, std::locale());
         // Temporary try catch block to handle unimplemented commands
-        try
-        {
+        try {
             processInput(command, cpuTable, cpuTree, undoStack);
         }
-        catch (std::logic_error &e)
-        {
+        catch (std::logic_error &e) {
             cout << e.what() << '\n';
         }
     }
@@ -69,90 +66,82 @@ int main()
     return 0;
 }
 
-void insertCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree);
+void handleInsert(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree);
+
+void handleFileInput(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, Stack<CPU> &undoStack);
 
 void deleteCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, Stack<CPU> &undoStack);
 
 void undoDelete(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, Stack<CPU> &undoStack);
 
-void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<string> &cpuTree, Stack<CPU> &undoStack)
-{
-    switch (command)
-    {
-    case 'H':
-        printHelp();
-        break;
-    case 'I': // Insert a new record
-        insertCPU(cpuTable, cpuTree);
-        break;
-    case 'F': // File input: add data from a file
-        throw std::logic_error("Not yet implemented: File input: add data from a file");
-        break;
-    case 'D': // Delete one record
-        deleteCPU(cpuTable, cpuTree, undoStack);
-        break;
-    case 'U': // Undo delete
-        undoDelete(cpuTable, cpuTree, undoStack);
-        break;
-    case 'L': // List all CPUs sorted by primary key
-        throw std::logic_error("Not yet implemented: List all CPUs sorted by primary key");
-        break;
-    case 'S': // Search for a CPU by the primary key
-        throw std::logic_error("Not yet implemented: Search for a CPU by the primary key");
-        break;
-    case 'W': // Write data to a file
-        throw std::logic_error("Not yet implemented: Write data to a file");
-        break;
-    case 'T': // Hashtable statistics
-        // throw std::logic_error("Not yet implemented: Hashtable statistics");
-        cout << "Load factor: " << cpuTable.getLoadFactor() << std::endl;
-        cout << "Total number of collisions: " << cpuTable.getTotalCollisions() << std::endl;
-        cout << "Longest collision path: " << cpuTable.getMaxCollisions() << std::endl;
-        break;
-    case 'P': // Print indented tree
-        throw std::logic_error("Not yet implemented: Print indented tree");
-        break;
-    case 'Z': // Display names of team members
-        printTeam();
-        break;
-    case 'Q': // Quit
-        break;
-    default:
-        cout << "Invalid command. Press 'H' to view available commands.\n";
+void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<string> &cpuTree, Stack<CPU> &undoStack) {
+    switch (command) {
+        case 'H':
+            printHelp();
+            break;
+        case 'I': // Insert a new record
+            handleInsert(cpuTable, cpuTree);
+            break;
+        case 'F': // File input: add data from a file
+            handleFileInput(cpuTable, cpuTree, undoStack);
+            break;
+        case 'D': // Delete one record
+            deleteCPU(cpuTable, cpuTree, undoStack);
+            break;
+        case 'U': // Undo delete
+            undoDelete(cpuTable, cpuTree, undoStack);
+            break;
+        case 'L': // List all CPUs sorted by primary key
+            throw std::logic_error("Not yet implemented: List all CPUs sorted by primary key");
+            break;
+        case 'S': // Search for a CPU by the primary key
+            throw std::logic_error("Not yet implemented: Search for a CPU by the primary key");
+            break;
+        case 'W': // Write data to a file
+            throw std::logic_error("Not yet implemented: Write data to a file");
+            break;
+        case 'T': // Hashtable statistics
+            cout << "Load factor: " << cpuTable.getLoadFactor() << std::endl;
+            cout << "Total number of collisions: " << cpuTable.getTotalCollisions() << std::endl;
+            cout << "Longest collision path: " << cpuTable.getMaxCollisions() << std::endl;
+            break;
+        case 'P': // Print indented tree
+            throw std::logic_error("Not yet implemented: Print indented tree");
+            break;
+        case 'Z': // Display names of team members
+            printTeam();
+            break;
+        case 'Q': // Quit
+            break;
+        default:
+            cout << "Invalid command. Press 'H' to view available commands.\n";
     }
 }
 
-void insertCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree)
-{
-    string cpuId;
-    int releaseYear, coreCount;
-    string architecture;
-    double baseClock;
-    cout << "Enter CPU ID: ";
-    cin >> cpuId;
-    cout << "Enter release year: ";
-    cin >> releaseYear;
-    cout << "Enter core count: ";
-    cin >> coreCount;
-    cout << "Enter architecture: ";
-    cin >> architecture;
-    cout << "Enter base clock: ";
-    cin >> baseClock;
-    CPU cpu(cpuId, releaseYear, coreCount, architecture, baseClock);
-
-    hashTable.insert(cpu, key_to_index);
-    tree.insert(cpuId);
+void handleInsert(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree) {
+    insertCPU(tree, hashTable);
 }
 
-void deleteCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, Stack<CPU> &undoStack)
-{
+void handleFileInput(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, Stack<CPU> &undoStack) {
+    string filename;
+    cout << "Enter filename: ";
+    cin >> filename;
+    int hashSize = findHashSize(filename);
+    hashTable = HashTable<CPU>(hashSize);
+    tree = BinarySearchTree<string>();
+    undoStack = Stack<CPU>();
+
+    insertFile(filename, tree, hashTable);
+    cout << "Data from file \"" << filename << "\" added.\n";
+}
+
+void deleteCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, Stack<CPU> &undoStack) {
     string cpuId;
     cout << "Enter CPU ID to delete: ";
     cin >> cpuId;
     CPU cpu(cpuId, 0, 0, "", 0.0);
     CPU cpuFound;
-    while (!hashTable.search(cpuFound, cpu, key_to_index))
-    {
+    while (hashTable.search(cpuFound, cpu, key_to_index) == -1) {
         cout << "CPU ID not found. Enter a valid CPU ID: ";
         cin >> cpuId;
         cpu = CPU(cpuId, 0, 0, "", 0.0);
@@ -164,10 +153,8 @@ void deleteCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, Stack<
     cout << "CPU ID \"" << cpuId << "\" deleted.\n";
 }
 
-void undoDelete(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, Stack<CPU> &undoStack)
-{
-    if (undoStack.isEmpty())
-    {
+void undoDelete(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, Stack<CPU> &undoStack) {
+    if (undoStack.isEmpty()) {
         cout << "No deletions to undo.\n";
         return;
     }
