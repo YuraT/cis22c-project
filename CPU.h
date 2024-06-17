@@ -3,8 +3,7 @@
 
 #include <string>
 
-class CPU
-{
+class CPU {
 private:
     std::string cpuId;
     int releaseYear;
@@ -13,47 +12,57 @@ private:
     double baseClock;
 
 public:
-    CPU() : cpuId(""), releaseYear(0), coreCount(0), architecture(""), baseClock(0.0){};
+    CPU() : cpuId(""), releaseYear(0), coreCount(0), architecture(""), baseClock(0.0) {};
 
-    CPU(std::string id, int year, int cores, std::string arch, double clock) : cpuId(std::move(id)),
-                                                                               releaseYear(year),
-                                                                               coreCount(cores),
-                                                                               architecture(std::move(arch)),
-                                                                               baseClock(clock){};
+    CPU(std::string id, int year, int cores, std::string arch, double clock) :
+            cpuId(std::move(id)),
+            releaseYear(year),
+            coreCount(cores),
+            architecture(std::move(arch)),
+            baseClock(clock) {};
 
-    std::string getCpuId() const { return cpuId; };
+    [[nodiscard]] std::string getCpuId() const { return cpuId; };
 
-    int getReleaseYear() const;
+    [[nodiscard]] int getReleaseYear() const { return releaseYear; };
 
-    int getCoreCount() const;
+    [[nodiscard]] int getCoreCount() const { return coreCount; };
 
-    std::string getArchitecture() const;
+    [[nodiscard]] std::string getArchitecture() const { return architecture; };
 
-    double getBaseClock() const;
+    [[nodiscard]] double getBaseClock() const { return baseClock; };
 
-    void setCpuId(std::string id);
+    void setCpuId(std::string id) { cpuId = std::move(id); };
 
-    void setReleaseYear(int year);
+    void setReleaseYear(int year) { releaseYear = year; }
 
-    void setCoreCount(int cores);
+    void setCoreCount(int cores) { coreCount = cores; };
 
-    void setArchitecture(std::string arch);
+    void setArchitecture(std::string arch) { architecture = std::move(arch); }
 
-    void setBaseClock(double clock);
+    void setBaseClock(double clock) { baseClock = clock; }
 
     // Operator overloads
-    bool operator<(const CPU &rhs) const;
+    bool operator<(const CPU &rhs) const {
+        return cpuId < rhs.cpuId;
+    };
 
-    bool operator>(const CPU &rhs) const;
+    bool operator>(const CPU &rhs) const {
+        return rhs < *this;
+    };
 
-    bool operator==(const CPU &rhs) const;
+    bool operator==(const CPU &rhs) const {
+        return cpuId == rhs.cpuId;
+    };
 
     // Friend function declarations
     friend void display(const CPU &cpu);
 
     friend void iDisplay(const CPU &cpu, int level);
 
-    friend std::ostream &operator<<(std::ostream &os, const CPU &cpu);
+    friend std::ostream &operator<<(std::ostream &os, const CPU &cpu) {
+        os << "CPU ID: " << cpu.cpuId << std::endl;
+        return os;
+    }
 
     friend int key_to_index(const CPU &key, int size);
 };

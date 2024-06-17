@@ -11,11 +11,8 @@ add_executable(08_team_project main.cpp
         BinaryTree.h
         BinarySearchTree.cpp
         BinarySearchTree.h
-        HashNode.cpp
         HashNode.h
-        HashTable.cpp
         HashTable.h
-#        CPU.cpp
         CPU.h
         Stack.cpp
         Stack.h
