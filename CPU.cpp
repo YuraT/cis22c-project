@@ -15,3 +15,11 @@ int key_to_index(const CPU &key, int size) {
         sum += k[i];
     return sum % size;
 }
+
+std::string to_string(const CPU &cpu) {
+    return cpu.cpuId + "; " +
+           std::to_string(cpu.releaseYear) + "; " +
+           std::to_string(cpu.coreCount) + "; " +
+           cpu.architecture + "; " +
+           std::to_string(cpu.baseClock) + ";";
+}

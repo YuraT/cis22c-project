@@ -1,57 +1,65 @@
 #ifndef INC_08_TEAM_PROJECT_HASHTABLE_H
 #define INC_08_TEAM_PROJECT_HASHTABLE_H
 
-#include <stdexcept>
+#include <fstream>
 #include "HashNode.h"
+#include "CPU.h"
 
-template <typename T>
-class HashTable
-{
+using std::string, std::ofstream, std::cout, std::endl;
+
+template<typename T>
+class HashTable {
 private:
     HashNode<T> *hashAry;
     int hashSize;
     int count;
 
 public:
-    HashTable()
-    {
+    HashTable() {
         count = 0;
         hashSize = 97;
         hashAry = new HashNode<T>[hashSize];
     }
-    HashTable(int n)
-    {
+
+    HashTable(int n) {
         count = 0;
         hashSize = n;
         hashAry = new HashNode<T>[hashSize];
     }
+
     ~HashTable() { delete[] hashAry; }
 
     int getCount() const { return count; }
+
     int getHashSize() const { return hashSize; }
+
     double getLoadFactor() const { return 100.0 * count / hashSize; }
+
     bool isEmpty() const { return count == 0; }
+
     bool isFull() const { return count == hashSize; }
 
     int getTotalCollisions() const;
+
     int getMaxCollisions() const;
 
     bool insert(const T &itemIn, int h(const T &key, int size));
+
     bool remove(T &itemOut, const T &key, int h(const T &key, int size));
+
     int search(T &itemOut, const T &key, int h(const T &key, int size)) const;
+
+    void outputFile(const string &filename, string visit(const T &));
 };
 
 /*~*~*~*
     Get total number of collisions throughout hash table
 *~**/
-template <typename T>
-int HashTable<T>::getTotalCollisions() const
-{
+template<typename T>
+int HashTable<T>::getTotalCollisions() const {
     int total = 0;
-    for (int i = 0; i < hashSize; i++)
-    {
-        if (hashAry[i].getOccupied() == 1)
-        {
+    for (int i = 0; i < hashSize; i++) {
+        if (hashAry[i].getOccupied() == 1) {
             total += hashAry[i].getNumCollisions();
         }
     }
@@ -61,14 +69,11 @@ int HashTable<T>::getTotalCollisions() const
 /*~*~*~*
     Get longest collision length in hash table
 *~**/
-template <typename T>
-int HashTable<T>::getMaxCollisions() const
-{
+template<typename T>
+int HashTable<T>::getMaxCollisions() const {
     int high = 0;
-    for (int i = 0; i < hashSize; i++)
-    {
-        if (hashAry[i].getOccupied() == 1 && hashAry[i].getNumCollisions() > high)
-        {
+    for (int i = 0; i < hashSize; i++) {
+        if (hashAry[i].getOccupied() == 1 && hashAry[i].getNumCollisions() > high) {
             high = hashAry[i].getNumCollisions();
         }
     }
@@ -79,17 +84,14 @@ int HashTable<T>::getMaxCollisions() const
    Insert an item into the hash table
    It does not reject duplicates
 *~**/
-template <typename T>
-bool HashTable<T>::insert(const T &itemIn, int h(const T &key, int size))
-{
+template<typename T>
+bool HashTable<T>::insert(const T &itemIn, int h(const T &key, int size)) {
     if (count == hashSize)
         return false;
 
     int ind = h(itemIn, hashSize);
-    for (int i = 0; i < hashSize; i++)
-    {
-        if (hashAry[(ind + i) % hashSize].getOccupied() != 1)
-        {
+    for (int i = 0; i < hashSize; i++) {
+        if (hashAry[(ind + i) % hashSize].getOccupied() != 1) {
             hashAry[(ind + i) % hashSize].setOccupied(1);
             hashAry[(ind + i) % hashSize].setItem(itemIn);
             hashAry[(ind + i) % hashSize].setNumCollisions(i);
@@ -110,25 +112,19 @@ bool HashTable<T>::insert(const T &itemIn, int h(const T &key, int size))
    if not found:
      - returns false
 *~**/
-template <typename T>
-bool HashTable<T>::remove(T &itemOut, const T &key, int h(const T &key, int size))
-{
+template<typename T>
+bool HashTable<T>::remove(T &itemOut, const T &key, int h(const T &key, int size)) {
     int ind = h(key, hashSize);
-    for (int i = 0; i < hashSize; i++)
-    {
-        if (hashAry[(ind + i) % hashSize].getOccupied() == 1)
-        {
-            if (hashAry[(ind + i) % hashSize].getItem() == key)
-            {
+    for (int i = 0; i < hashSize; i++) {
+        if (hashAry[(ind + i) % hashSize].getOccupied() == 1) {
+            if (hashAry[(ind + i) % hashSize].getItem() == key) {
                 itemOut = hashAry[(ind + i) % hashSize].getItem();
                 hashAry[(ind + i) % hashSize].setOccupied(-1);
                 // Do not access a node with occupied of -1
                 count--;
                 return true;
             }
-        }
-        else if (hashAry[(ind + 1) % hashSize].getOccupied() == 0)
-        {
+        } else if (hashAry[(ind + 1) % hashSize].getOccupied() == 0) {
             // If using linear probing and we come across a spot that has been empty since start, the item is not in the table
             break;
         }
@@ -144,28 +140,49 @@ bool HashTable<T>::remove(T &itemOut, const T &key, int h(const T &key, int size
       - returns the number of collisions for this key
    if not found, returns -1
 *~**/
-template <typename T>
-int HashTable<T>::search(T &itemOut, const T &key, int h(const T &key, int size)) const
-{
+template<typename T>
+int HashTable<T>::search(T &itemOut, const T &key, int h(const T &key, int size)) const {
     int ind = h(key, hashSize);
-    for (int i = 0; i < hashSize; i++)
-    {
-        if (hashAry[(ind + i) % hashSize].getOccupied() == 1)
-        {
-            if (hashAry[(ind + i) % hashSize].getItem() == key)
-            {
+    for (int i = 0; i < hashSize; i++) {
+        if (hashAry[(ind + i) % hashSize].getOccupied() == 1) {
+            if (hashAry[(ind + i) % hashSize].getItem() == key) {
                 itemOut = hashAry[(ind + i) % hashSize].getItem();
                 return hashAry[(ind + i) % hashSize].getNumCollisions();
             }
-        }
-        else if (hashAry[(ind + 1) % hashSize].getOccupied() == 0)
-        {
+        } else if (hashAry[(ind + 1) % hashSize].getOccupied() == 0) {
             // If using linear probing and we come across a spot that has been empty since start, the item is not in the table
             break;
         }
     }
 
     return -1;
+}
+
+template<class T>
+void HashTable<T>::outputFile(const string &filename, string visit(const T &)) {
+    ofstream outputFile(filename);
+    cout << "Outputting data to \"" << filename << "\"" << endl;
+
+    if (!outputFile.good()) {
+        cout << "Error opening the output file: \"" << filename << "\"" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    T aT;
+
+    if (hashAry[0].getOccupied() == 1) {
+        aT = hashAry[0].getItem();
+        outputFile << visit(aT);
+    }
+
+    for (int i = 1; i < hashSize; i++) {
+        if (hashAry[i].getOccupied() == 1) {
+            aT = hashAry[i].getItem();
+            outputFile << endl << visit(aT);
+        }
+    }
+
+    outputFile.close();
 }
 
 #endif // INC_08_TEAM_PROJECT_HASHTABLE_H

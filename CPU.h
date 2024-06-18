@@ -57,7 +57,7 @@ public:
     // Friend function declarations
     friend void display(const CPU &cpu);
 
-    friend void iDisplay(const CPU& cpu, int level) {
+    friend void iDisplay(const CPU &cpu, int level) {
         for (int i = 1; i < level; i++)
             std::cout << "..";
         std::cout << level << "). " << cpu.cpuId << std::endl;
@@ -65,7 +65,10 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const CPU &cpu);
 
-    friend int key_to_index(const CPU &key, int size) ;
+    friend int key_to_index(const CPU &key, int size);
+
+    friend std::string to_string(const CPU &cpu);
+
 };
 
 std::ostream &operator<<(std::ostream &os, const CPU &cpu);
@@ -74,5 +77,7 @@ std::ostream &operator<<(std::ostream &os, const CPU &cpu);
  Hash function: takes the key and returns the index in the hash table
  *~**/
 int key_to_index(const CPU &key, int size);
+
+std::string to_string(const CPU &cpu);
 
 #endif // INC_08_TEAM_PROJECT_CPU_H

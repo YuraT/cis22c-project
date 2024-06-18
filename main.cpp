@@ -65,11 +65,11 @@ int main() {
             processInput(command, cpuTable, cpuTree, undoManager, displayManager, searchManager);
         }
         catch (std::logic_error &e) {
-            cout << e.what() << '\n';
+            cout << "Error: " << e.what() << '\n';
         }
     }
     // Quit command received
-    // TODO: Write data to a file
+    cpuTable.outputFile("output.txt", to_string);
     cout << "Exiting program...\n";
 
     return 0;
@@ -81,7 +81,7 @@ void handleFileInput(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree);
 
 void deleteCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, UndoManager<CPU> &undoManager);
 
-// void undoDelete(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, UndoManager<CPU> &undoManager);
+void handleFileOutput(HashTable<CPU> &hashTable, UndoManager<CPU> &undoManager);
 
 void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<string> &cpuTree,
                   UndoManager<CPU> &undoManager, DisplayManager<CPU> &displayManager,
@@ -110,7 +110,7 @@ void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<strin
             throw std::logic_error("Not yet implemented: Search for a CPU by the primary key");
             break;
         case 'W': // Write data to a file
-            throw std::logic_error("Not yet implemented: Write data to a file");
+            handleFileOutput(cpuTable, undoManager);
             break;
         case 'T': // Hashtable statistics
             cout << "Load factor: " << cpuTable.getLoadFactor() << std::endl;
@@ -140,7 +140,7 @@ void handleFileInput(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree) 
     cin >> filename;
     int hashSize = findHashSize(filename);
     hashTable = HashTable<CPU>(hashSize);
-    tree = BinarySearchTree<string>();
+    tree.clear();
 
     insertFile(filename, tree, hashTable);
     cout << "Data from file \"" << filename << "\" added.\n";
@@ -162,4 +162,13 @@ void deleteCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, UndoMa
     tree.remove(cpuId);
 
     cout << "CPU ID \"" << cpuId << "\" deleted.\n";
+}
+
+void handleFileOutput(HashTable<CPU> &hashTable, UndoManager<CPU> &undoManager) {
+    string filename;
+    cout << "Enter filename: ";
+    cin >> filename;
+    hashTable.outputFile(filename, to_string);
+    undoManager.clearUndoStack();
+    cout << "Data written to file \"" << filename << "\".\n";
 }
