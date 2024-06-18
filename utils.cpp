@@ -102,3 +102,43 @@ void printTeam() {
     };
     printTable(teamWidths, teamData);
 }
+
+int findNextPrime(int n) {
+    if (n < 5) {
+        return 5;
+    }
+
+    bool found = false;
+
+    while (!found) {
+        // Every prime number occurs only 1 number before or after a multiple of six.  Every other number is divisible by either 2 or 3.
+        if ((n % 6) == 1) {
+            n += 4;
+        } else if ((n % 6) == 5) {
+            n += 2;
+        } else if ((n % 6) >= 2) {
+            n = n - (n % 6) + 5;
+        } else {
+            n += 1;
+        }
+
+        found = true;
+        for (int i = 5; i < n / 2;) {
+            if (n % i == 0) {
+                found = false;
+                break;
+            }
+
+            i += 2;
+
+            if (n % i == 0) {
+                found = false;
+                break;
+            }
+
+            i += 4;
+        }
+    }
+
+    return n;
+}

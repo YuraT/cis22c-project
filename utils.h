@@ -13,4 +13,6 @@ void printHelp();
 
 void printTeam();
 
+int findNextPrime(int n);
+
 #endif //INC_08_TEAM_PROJECT_UTILS_H

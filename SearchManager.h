@@ -7,16 +7,16 @@
 template<typename T>
 class SearchManager {
 private:
-    HashTable<T> hashTable;
+    HashTable<T> *hashTable;
 
 public:
-    SearchManager(HashTable<T> &ht);
+    SearchManager(HashTable<T> *ht);
 
     void searchCPU() const;
 };
 
 template<typename T>
-SearchManager<T>::SearchManager(HashTable<T> &ht) {
+SearchManager<T>::SearchManager(HashTable<T> *ht) {
     this->hashTable = ht;
 }
 
@@ -27,11 +27,13 @@ void SearchManager<T>::searchCPU() const {
     std::cin >> cpuID;
 
     // Search for the CPU in the HashTable
-    CPU *foundCPU = hashTable.search(cpuID);
+    CPU foundCPU;
+    foundCPU.setCpuId(cpuID);
+    int collisionCount = hashTable->search(foundCPU, foundCPU, key_to_index);
 
-    if (foundCPU != nullptr) {
+    if (collisionCount != -1) {
         std::cout << "CPU found:" << std::endl;
-        std::cout << *foundCPU << std::endl;
+        std::cout << foundCPU << std::endl;
     } else {
         std::cout << "CPU not found." << std::endl;
     }

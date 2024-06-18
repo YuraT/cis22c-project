@@ -9,12 +9,12 @@
 template<typename T>
 class UndoManager {
 private:
-    HashTable<T> hashTable;
-    BinarySearchTree<std::string> bst;
+    HashTable<T> *hashTable;
+    BinarySearchTree<std::string> *bst;
     Stack<T> *undoStack;
 
 public:
-    UndoManager(HashTable<T> &ht, BinarySearchTree<std::string> &bst);
+    UndoManager(HashTable<T> *ht, BinarySearchTree<std::string> *bst);
 
     ~UndoManager();
 
@@ -26,7 +26,7 @@ public:
 };
 
 template<typename T>
-UndoManager<T>::UndoManager(HashTable<T> &ht, BinarySearchTree<std::string> &bst) {
+UndoManager<T>::UndoManager(HashTable<T> *ht, BinarySearchTree<std::string> *bst) {
     this->hashTable = ht;
     this->bst = bst;
     this->undoStack = new Stack<CPU>();
@@ -48,8 +48,8 @@ void UndoManager<T>::undoDelete() {
         T lastDeleted = undoStack->pop();
 
         // Reinsert the CPU into the HashTable and BST
-        hashTable.insert(lastDeleted, key_to_index);
-        bst.insert(lastDeleted.getCpuId());
+        hashTable->insert(lastDeleted, key_to_index);
+        bst->insert(lastDeleted.getCpuId());
 
         std::cout << "Undo successful. CPU reinserted:" << std::endl;
         std::cout << lastDeleted << std::endl;

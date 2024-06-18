@@ -51,9 +51,9 @@ int main() {
     BinarySearchTree<string> cpuTree;
     // Stack<CPU> undoStack;
 
-    DisplayManager<CPU> displayManager(cpuTable, cpuTree);
-    SearchManager<CPU> searchManager(cpuTable);
-    UndoManager<CPU> undoManager(cpuTable, cpuTree);
+    DisplayManager<CPU> displayManager(&cpuTable, &cpuTree);
+    SearchManager<CPU> searchManager(&cpuTable);
+    UndoManager<CPU> undoManager(&cpuTable, &cpuTree);
 
     char command = ' ';
     while (command != 'Q') {
@@ -104,10 +104,10 @@ void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<strin
             undoManager.undoDelete();
             break;
         case 'L': // List all CPUs sorted by primary key
-            throw std::logic_error("Not yet implemented: List all CPUs sorted by primary key");
+            displayManager.displayTree();
             break;
         case 'S': // Search for a CPU by the primary key
-            throw std::logic_error("Not yet implemented: Search for a CPU by the primary key");
+            searchManager.searchCPU();
             break;
         case 'W': // Write data to a file
             handleFileOutput(cpuTable, undoManager);
@@ -131,6 +131,10 @@ void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<strin
 }
 
 void handleInsert(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree) {
+    if (hashTable.getLoadFactor() >= 75) {
+        cout << "Load factor is " << hashTable.getLoadFactor() << ". Rehashing...\n";
+        hashTable.reHash(key_to_index);
+    }
     insertCPU(tree, hashTable);
 }
 

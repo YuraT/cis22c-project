@@ -4,6 +4,7 @@
 #include <fstream>
 #include "HashNode.h"
 #include "CPU.h"
+#include "utils.h"
 
 using std::string, std::ofstream, std::cout, std::endl;
 
@@ -50,6 +51,8 @@ public:
     int search(T &itemOut, const T &key, int h(const T &key, int size)) const;
 
     void outputFile(const string &filename, string visit(const T &));
+
+    void reHash(int h(const T &key, int size));
 };
 
 /*~*~*~*
@@ -183,6 +186,40 @@ void HashTable<T>::outputFile(const string &filename, string visit(const T &)) {
     }
 
     outputFile.close();
+}
+
+template<class T>
+void HashTable<T>::reHash(int h(const T &key, int size)){
+
+    int nHashSize = hashSize * 2;
+
+    nHashSize = findNextPrime(nHashSize);
+
+    HashNode<T>* nHashAry = new HashNode<T>[nHashSize];
+
+    // Goes through each bucket and puts it in the new array
+    T aT;
+    for(int i = 0; i < hashSize; i++){
+        if(hashAry[i].getOccupied() == 1){
+            aT = hashAry[i].getItem();
+
+            int nIndex = h(aT, nHashSize);
+
+            for(int j = 0; j < hashSize; j++){
+               if(nHashAry[nIndex].getOccupied() != 1){
+                  nHashAry[nIndex].setItem(aT);
+                  nHashAry[nIndex].setOccupied(1);
+                  nHashAry[nIndex].setNumCollisions(i);
+                  break;
+               }
+
+               nIndex = (nIndex + 1) % hashSize;
+            }
+        }
+    }
+
+    hashAry = nHashAry;
+    hashSize = nHashSize;
 }
 
 #endif // INC_08_TEAM_PROJECT_HASHTABLE_H

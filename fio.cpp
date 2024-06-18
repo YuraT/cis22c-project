@@ -7,7 +7,7 @@ bool isDouble(const string &str);
 
 using std::stringstream, std::ifstream, std::getline, std::cout, std::endl, std::stoi, std::stod, std::cin;
 
-int findHashSize(const string& filename) {
+int findHashSize(const string &filename) {
     ifstream inputFile(filename);
 
     if (!inputFile) {
@@ -25,47 +25,10 @@ int findHashSize(const string& filename) {
     }
 
     count *= 2;
-
-    if (count < 5) {
-        return 5;
-    }
-
-    bool found = false;
-
-    while (!found) {
-        // Every prime number occurs only 1 number before or after a multiple of six.  Every other number is divisible by either 2 or 3.
-        if ((count % 6) == 1) {
-            count += 4;
-        } else if ((count % 6) == 5) {
-            count += 2;
-        } else if ((count % 6) >= 2) {
-            count = count - (count % 6) + 5;
-        } else {
-            count += 1;
-        }
-
-        found = true;
-        for (int i = 5; i < count / 2;) {
-            if (count % i == 0) {
-                found = false;
-                break;
-            }
-
-            i += 2;
-
-            if (count % i == 0) {
-                found = false;
-                break;
-            }
-
-            i += 4;
-        }
-    }
-
-    return count;
+    return findNextPrime(count);
 }
 
-void insertFile(const string& filename, BinarySearchTree<string> &bst, HashTable<CPU> &hash) {
+void insertFile(const string &filename, BinarySearchTree<string> &bst, HashTable<CPU> &hash) {
     ifstream inputFile(filename);
     cout << "Reading data from \"" << filename << "\"" << endl;
 
@@ -172,7 +135,7 @@ void insertCPU(BinarySearchTree<string> &bst, HashTable<CPU> &hash) {
     hash.insert(aCPU, key_to_index);
 }
 
-bool isInteger(const string& str) {
+bool isInteger(const string &str) {
     for (int i = 0; i < str.length(); i++) {
         if (!(isdigit(str[i]))) {
             return false;
@@ -182,7 +145,7 @@ bool isInteger(const string& str) {
     return true;
 }
 
-bool isDouble(const string& str) {
+bool isDouble(const string &str) {
     int chance = 0;
 
     for (int i = 0; i < str.length(); i++) {
