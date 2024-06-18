@@ -5,28 +5,49 @@
 
 template<typename T>
 class BinaryTree {
-private:
+protected:
     BinaryTreeNode<T> *root;
     int size;
 
 public:
+
     BinaryTree() : root(nullptr), size(0) {};
 
-    ~BinaryTree() { throw std::logic_error("Not implemented: ~BinaryTree()"); };
+    BinaryTree(const BinaryTree<T>& tree) { }
+
+    ~BinaryTree() { destroyTree(root); };
 
     [[nodiscard]] bool isEmpty() const { return size == 0; };
 
     [[nodiscard]] int getSize() const { return size; };
 
-    void clear() { throw std::logic_error("Not implemented: BinaryTree.clear()"); };
+    void clear() { destroyTree(root); root = 0; size = 0; }
 
-    void preOrder(void visit(const T &)) { throw std::logic_error("Not implemented: BinaryTree.preOrder()"); };
+    void preOrder(void visit(const T&)) const { _preorder(visit, root); }
 
-    void postOrder(void visit(const T &)) { throw std::logic_error("Not implemented: BinaryTree.postOrder()"); };
+    void inOrder(void visit(const T&)) const { _inorder(visit, root); }
 
-    void inOrder(void visit(const T &)) { throw std::logic_error("Not implemented: BinaryTree.inOrder()"); };
+    void postOrder(void visit(const T&)) const { _postorder(visit, root); }
 
-    void printIndented(void visit(const T &, int)) { throw std::logic_error("Not implemented: BinaryTree.printIndented()"); };
+    void printIndented(void visit(const T&)) const { _printindented(visit, root, 0); }
+
+    // abstract functions to be implemented by derived class
+    virtual void insert(const T& newData) = 0;
+    //virtual bool remove(const T &data) = 0;
+    virtual bool search(const T& target, T& returnedItem) const = 0;
+
+private:
+    // delete all nodes from the tree
+    void destroyTree(BinaryTreeNode<T>* nodePtr);
+
+    // internal traverse
+    void _preorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) const;
+
+    void _inorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) const;
+
+    void _postorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) const;
+
+    void _printindented(void visit(const T&, int), BinaryTreeNode<T>* nodePtr) const;
 
 };
 
