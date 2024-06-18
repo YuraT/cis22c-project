@@ -57,7 +57,11 @@ public:
     // Friend function declarations
     friend void display(const CPU &cpu);
 
-    friend void iDisplay(const CPU &cpu, int level);
+    friend void iDisplay(const CPU& cpu, int level) {
+        for (int i = 1; i < level; i++)
+            std::cout << "..";
+        std::cout << level << "). " << cpu.cpuId << std::endl;
+    };
 
     friend std::ostream &operator<<(std::ostream &os, const CPU &cpu);
 
