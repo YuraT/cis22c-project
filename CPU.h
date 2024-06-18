@@ -59,19 +59,12 @@ public:
 
     friend void iDisplay(const CPU &cpu, int level);
 
-    friend std::ostream &operator<<(std::ostream &os, const CPU &cpu) {
-        os << "CPU ID: " << cpu.cpuId << std::endl;
-        return os;
-    }
+    friend std::ostream &operator<<(std::ostream &os, const CPU &cpu);
 
-    friend int key_to_index(const CPU &key, int size) {
-        std::string k = key.getCpuId();
-        int sum = 0;
-        for (int i = 0; k[i]; i++)
-            sum += k[i];
-        return sum % size;
-    };
+    friend int key_to_index(const CPU &key, int size) ;
 };
+
+std::ostream &operator<<(std::ostream &os, const CPU &cpu);
 
 /*~*~*~*
  Hash function: takes the key and returns the index in the hash table

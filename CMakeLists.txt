@@ -7,17 +7,17 @@ add_executable(08_team_project main.cpp
         utils.h
         utils.cpp
         BinaryTreeNode.h
-        BinaryTree.cpp
         BinaryTree.h
-        BinarySearchTree.cpp
         BinarySearchTree.h
         HashNode.h
         HashTable.h
         CPU.h
-        Stack.cpp
+        CPU.cpp
         Stack.h
-        StackNode.cpp
         StackNode.h
         fio.h
         fio.cpp
+        DisplayManager.h
+        UndoManager.h
+        SearchManager.h
 )
