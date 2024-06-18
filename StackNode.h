@@ -3,7 +3,10 @@
 
 template<typename T>
 class StackNode {
+    T data;
+    StackNode<T> *next;
 
+    StackNode(const T &data) : data(data), next(nullptr) {}
 };
 
 
