@@ -46,13 +46,27 @@ void DisplayManager<T>::displayAll() const {
 
 template<typename T>
 void DisplayManager<T>::displayTree() const {
-    std::cout << "CPU Binary Search Tree:" << std::endl;
+    std::cout << "All CPUs: " << std::endl;
+
+    static const std::vector<string> headers = {
+            "CPU ID",
+            "Release Year",
+            "Core Count",
+            "Architecture",
+            "Base Clock (GHz)"
+    };
+    static const std::vector<int> widths = {20, 14, 12, 20, 18};
+    printTableHeader(widths, headers);
 
     // Call the BST's inorder traversal method to display the tree
-    // TODO: Use a proper display function
-    bst->inOrder([](const std::string &key) {
-        std::cout << key << std::endl;
+    bst->inOrder([this](const string &cpuId) {
+        CPU cpu;
+        cpu.setCpuId(cpuId);
+        this->hashTable->search(cpu, cpu, key_to_index);
+        rowDisplay(cpu, widths);
     });
+
+    printTableFooter(widths);
 }
 
 #endif

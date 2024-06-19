@@ -1,6 +1,7 @@
 #ifndef INC_08_TEAM_PROJECT_BINARYTREE_H
 #define INC_08_TEAM_PROJECT_BINARYTREE_H
 
+#include <functional>
 #include "BinaryTreeNode.h"
 
 template<typename T>
@@ -23,7 +24,7 @@ public:
 
     void preOrder(void visit(const T&)) const { _preorder(visit, root); }
 
-    void inOrder(void visit(const T&)) const { _inorder(visit, root); }
+    void inOrder(std::function<void(const T&)> visit) const { _inorder(visit, root); }
 
     void postOrder(void visit(const T&)) const { _postorder(visit, root); }
 
@@ -41,7 +42,7 @@ private:
     // internal traverse
     void _preorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) const;
 
-    void _inorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) const;
+    void _inorder(std::function<void(const T&)> visit, BinaryTreeNode<T>* nodePtr) const;
 
     void _postorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) const;
 
@@ -72,7 +73,7 @@ void BinaryTree<T>::_preorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) 
 }
 
 template<typename T>
-void BinaryTree<T>::_inorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) const
+void BinaryTree<T>::_inorder(std::function<void(const T&)> visit, BinaryTreeNode<T>* nodePtr) const
 {
     if (nodePtr) // != NULL
     {

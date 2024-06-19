@@ -24,7 +24,8 @@ template<typename T>
 void SearchManager<T>::searchCPU() const {
     std::string cpuID;
     std::cout << "Enter the CPU ID to search: ";
-    std::cin >> cpuID;
+    std::cin.ignore();
+    getline(std::cin, cpuID);
 
     // Search for the CPU in the HashTable
     CPU foundCPU;
@@ -33,7 +34,7 @@ void SearchManager<T>::searchCPU() const {
 
     if (collisionCount != -1) {
         std::cout << "CPU found:" << std::endl;
-        std::cout << foundCPU << std::endl;
+        display(foundCPU);
     } else {
         std::cout << "CPU not found." << std::endl;
     }
