@@ -47,6 +47,14 @@ void UndoManager<T>::undoDelete() {
     if (!undoStack->isEmpty()) {
         T lastDeleted = undoStack->pop();
 
+        // Check if the CPU is already in the HashTable
+        T foundCPU;
+        foundCPU.setCpuId(lastDeleted.getCpuId());
+        if (hashTable->search(foundCPU, foundCPU, key_to_index) != -1) {
+            std::cout << "Undo failed: CPU \"" << lastDeleted.getCpuId() << "\" already exists in the HashTable." << std::endl;
+            return;
+        }
+
         // Reinsert the CPU into the HashTable and BST
         hashTable->insert(lastDeleted, key_to_index);
         bst->insert(lastDeleted.getCpuId());
