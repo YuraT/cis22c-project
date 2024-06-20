@@ -1,14 +1,14 @@
 #include <iostream>
 #include "utils.h"
 
-using std::cout;
+using namespace std;
 
 void printRow(const vector<int> &widths, const vector<string> &row) {
     cout << '|';
     for (int i = 0; i < widths.size(); i++) {
         cout << ' ';
         cout.width(widths[i] - 1);
-        cout << std::left << row[i];
+        cout << left << row[i];
         cout << '|';
     }
     cout << '\n';
@@ -30,7 +30,7 @@ void printTableHeader(const vector<int> &widths, const vector<string> &headers) 
     for (int i = 0; i < widths.size(); i++) {
         cout << ' ';
         cout.width(widths[i] - 1);
-        cout << std::left << headers[i];
+        cout << left << headers[i];
         cout << '|';
     }
     cout << '\n';
@@ -90,8 +90,8 @@ void printHelp() {
             {"W",   "Write data to a file"},
             {"T",   "Hashtable statistics"},
             {"Q",   "Quit"},
-            {"P",   "Hidden print option (do not show it in the menu: print indented tree)"},
-            {"Z",   "Hidden option (do not show it in the menu: display names of team members)"},
+            // {"P",   "Hidden print option (do not show it in the menu: print indented tree)"},
+            // {"Z",   "Hidden option (do not show it in the menu: display names of team members)"},
     };
     printTable(helpWidths, helpData);
 }

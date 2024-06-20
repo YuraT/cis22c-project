@@ -2,11 +2,20 @@
 #define INC_08_TEAM_PROJECT_HASHTABLE_H
 
 #include <fstream>
+#include <iostream>
+#include <functional>
 #include "HashNode.h"
 #include "CPU.h"
 #include "utils.h"
 
-using std::string, std::ofstream, std::cout, std::endl;
+using namespace std;
+
+// Forward declaration for friend function
+template<typename T>
+class HashTable;
+
+template<typename T>
+void writeToFile(const HashTable<T> &hashTable, const string &filename, string visit(const T &));
 
 template<typename T>
 class HashTable {
@@ -18,7 +27,7 @@ private:
 public:
     HashTable() {
         count = 0;
-        hashSize = 97;
+        hashSize = 3;
         hashAry = new HashNode<T>[hashSize];
     }
 
@@ -50,9 +59,9 @@ public:
 
     int search(T &itemOut, const T &key, int h(const T &key, int size)) const;
 
-    void outputFile(const string &filename, string visit(const T &));
-
     void reHash(int h(const T &key, int size));
+
+    friend void writeToFile<T>(const HashTable<T> &hashTable, const string &filename, string visit(const T &));
 };
 
 /*~*~*~*
@@ -162,64 +171,60 @@ int HashTable<T>::search(T &itemOut, const T &key, int h(const T &key, int size)
 }
 
 template<class T>
-void HashTable<T>::outputFile(const string &filename, string visit(const T &)) {
-    ofstream outputFile(filename);
-    cout << "Outputting data to \"" << filename << "\"" << endl;
-
-    if (!outputFile.good()) {
-        cout << "Error opening the output file: \"" << filename << "\"" << endl;
-        exit(EXIT_FAILURE);
-    }
-
-    T aT;
-
-    if (hashAry[0].getOccupied() == 1) {
-        aT = hashAry[0].getItem();
-        outputFile << visit(aT);
-    }
-
-    for (int i = 1; i < hashSize; i++) {
-        if (hashAry[i].getOccupied() == 1) {
-            aT = hashAry[i].getItem();
-            outputFile << endl << visit(aT);
-        }
-    }
-
-    outputFile.close();
-}
-
-template<class T>
-void HashTable<T>::reHash(int h(const T &key, int size)){
+void HashTable<T>::reHash(int h(const T &key, int size)) {
 
     int nHashSize = hashSize * 2;
 
     nHashSize = findNextPrime(nHashSize);
 
-    HashNode<T>* nHashAry = new HashNode<T>[nHashSize];
+    HashNode<T> *nHashAry = new HashNode<T>[nHashSize];
 
     // Goes through each bucket and puts it in the new array
     T aT;
-    for(int i = 0; i < hashSize; i++){
-        if(hashAry[i].getOccupied() == 1){
+    for (int i = 0; i < hashSize; i++) {
+        if (hashAry[i].getOccupied() == 1) {
             aT = hashAry[i].getItem();
 
             int nIndex = h(aT, nHashSize);
 
-            for(int j = 0; j < hashSize; j++){
-               if(nHashAry[nIndex].getOccupied() != 1){
-                  nHashAry[nIndex].setItem(aT);
-                  nHashAry[nIndex].setOccupied(1);
-                  nHashAry[nIndex].setNumCollisions(i);
-                  break;
-               }
+            for (int j = 0; j < hashSize; j++) {
+                if (nHashAry[nIndex].getOccupied() != 1) {
+                    nHashAry[nIndex].setItem(aT);
+                    nHashAry[nIndex].setOccupied(1);
+                    nHashAry[nIndex].setNumCollisions(i);
+                    break;
+                }
 
-               nIndex = (nIndex + 1) % hashSize;
+                nIndex = (nIndex + 1) % hashSize;
             }
         }
     }
 
     hashAry = nHashAry;
     hashSize = nHashSize;
+}
+
+template<typename T>
+void writeToFile(const HashTable<T> &hashTable, const string &filename, string visit(const T &)) {
+    ofstream outputFile(filename);
+
+    if (!outputFile.good()) {
+        cout << "Error opening the output file: \"" << filename << "\"" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    outputFile.flush();
+
+    T aT;
+
+    for (int i = 0; i < hashTable.hashSize; i++) {
+        if (hashTable.hashAry[i].getOccupied() == 1) {
+            aT = hashTable.hashAry[i].getItem();
+            outputFile << visit(aT) << '\n';
+        }
+    }
+
+    outputFile.close();
 }
 
 #endif // INC_08_TEAM_PROJECT_HASHTABLE_H

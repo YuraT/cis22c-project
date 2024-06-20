@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-using std::vector, std::string;
+using namespace std;
 
 void printRow(const vector<int> &widths, const vector<string> &row);
 

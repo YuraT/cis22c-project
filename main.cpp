@@ -26,7 +26,6 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include "utils.h"
 #include "CPU.h"
 #include "HashTable.h"
@@ -37,7 +36,9 @@
 #include "DisplayManager.h"
 #include "SearchManager.h"
 
-using std::cin, std::cout, std::string, std::vector;
+using namespace std;
+
+const string DEFAULT_FILE = "out.txt";
 
 void processInput(char command, HashTable<CPU> &table, BinarySearchTree<string> &tree,
                   UndoManager<CPU> &undoManager, DisplayManager<CPU> &displayManager,
@@ -47,9 +48,12 @@ int main() {
     // Print help table for commands
     printHelp();
 
-    HashTable<CPU> cpuTable;
+    int hashSize = findHashSize(DEFAULT_FILE);
+    HashTable<CPU> cpuTable = HashTable<CPU>(hashSize);
     BinarySearchTree<string> cpuTree;
-    // Stack<CPU> undoStack;
+
+    // Read initial data from output file
+    insertFile(DEFAULT_FILE, cpuTree, cpuTable);
 
     DisplayManager<CPU> displayManager(&cpuTable, &cpuTree);
     SearchManager<CPU> searchManager(&cpuTable);
@@ -69,7 +73,7 @@ int main() {
         }
     }
     // Quit command received
-    cpuTable.outputFile("output.txt", to_string);
+    writeToFile(cpuTable, DEFAULT_FILE, to_string);
     cout << "Exiting program...\n";
 
     return 0;
@@ -142,9 +146,6 @@ void handleFileInput(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree) 
     string filename;
     cout << "Enter filename: ";
     cin >> filename;
-    int hashSize = findHashSize(filename);
-    hashTable = HashTable<CPU>(hashSize);
-    tree.clear();
 
     insertFile(filename, tree, hashTable);
     cout << "Data from file \"" << filename << "\" added.\n";
@@ -172,7 +173,7 @@ void handleFileOutput(HashTable<CPU> &hashTable, UndoManager<CPU> &undoManager) 
     string filename;
     cout << "Enter filename: ";
     cin >> filename;
-    hashTable.outputFile(filename, to_string);
+    writeToFile(hashTable, filename, to_string);
     undoManager.clearUndoStack();
     cout << "Data written to file \"" << filename << "\".\n";
 }

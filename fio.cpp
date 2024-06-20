@@ -5,7 +5,7 @@ bool isInteger(const string &str);
 
 bool isDouble(const string &str);
 
-using std::stringstream, std::ifstream, std::getline, std::cout, std::endl, std::stoi, std::stod, std::cin;
+using namespace std;
 
 int findHashSize(const string &filename) {
     ifstream inputFile(filename);
@@ -14,7 +14,7 @@ int findHashSize(const string &filename) {
         cout << "Error opening the input file: \"" << filename << "\"" << endl;
         return -1;
     }
-    cout << "Reading data from \"" << filename << "\"" << endl;
+    // cout << "Reading data from \"" << filename << "\"" << endl;
 
     int count = 0;
     string line;
@@ -30,7 +30,7 @@ int findHashSize(const string &filename) {
 
 void insertFile(const string &filename, BinarySearchTree<string> &bst, HashTable<CPU> &hash) {
     ifstream inputFile(filename);
-    cout << "Reading data from \"" << filename << "\"" << endl;
+    // cout << "Reading data from \"" << filename << "\"" << endl;
 
     if (!inputFile) {
         cout << "Error opening the input file: \"" << filename << "\"" << endl;
@@ -80,7 +80,8 @@ void insertCPU(BinarySearchTree<string> &bst, HashTable<CPU> &hash) {
     double baseClock;
 
     cout << "Please enter the name of the CPU: ";
-    cin >> name;
+    cin.ignore();
+    getline(cin, name);
 
     CPU key(name, -1, -1, "", -1);
     CPU checker;
@@ -115,8 +116,8 @@ void insertCPU(BinarySearchTree<string> &bst, HashTable<CPU> &hash) {
 
     // Strings don't need to be tested
     cout << "Please enter the architecture of the CPU: ";
-    cin >> architecture;
-
+    cin.ignore();
+    getline(cin, architecture);
 
     cout << "Please enter the base clock of the CPU: ";
     cin >> tester;
