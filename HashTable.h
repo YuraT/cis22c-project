@@ -27,7 +27,7 @@ private:
 public:
     HashTable() {
         count = 0;
-        hashSize = 3;
+        hashSize = 7;
         hashAry = new HashNode<T>[hashSize];
     }
 

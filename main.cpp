@@ -49,11 +49,15 @@ int main() {
     printHelp();
 
     int hashSize = findHashSize(DEFAULT_FILE);
-    HashTable<CPU> cpuTable = HashTable<CPU>(hashSize);
+    HashTable<CPU> cpuTable = HashTable<CPU>(hashSize == -1 ? 7 : hashSize);
     BinarySearchTree<string> cpuTree;
 
-    // Read initial data from output file
-    insertFile(DEFAULT_FILE, cpuTree, cpuTable);
+    // Read initial data from output file if it exists
+    if (hashSize != -1) {
+        insertFile(DEFAULT_FILE, cpuTree, cpuTable);
+    } else {
+        cout << "Could not open default file \"" << DEFAULT_FILE << "\". Starting with an empty database.\n";
+    }
 
     DisplayManager<CPU> displayManager(&cpuTable, &cpuTree);
     SearchManager<CPU> searchManager(&cpuTable);
@@ -148,19 +152,19 @@ void handleFileInput(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree) 
     cin >> filename;
 
     insertFile(filename, tree, hashTable);
-    cout << "Data from file \"" << filename << "\" added.\n";
 }
 
 void deleteCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, UndoManager<CPU> &undoManager) {
     string cpuId;
     cout << "Enter CPU ID to delete: ";
-    cin >> cpuId;
+    cin.ignore();
+    getline(cin, cpuId);
+
     CPU cpu(cpuId, 0, 0, "", 0.0);
     CPU cpuFound;
-    while (hashTable.search(cpuFound, cpu, key_to_index) == -1) {
-        cout << "CPU ID not found. Enter a valid CPU ID: ";
-        cin >> cpuId;
-        cpu = CPU(cpuId, 0, 0, "", 0.0);
+    if  (hashTable.search(cpuFound, cpu, key_to_index) == -1) {
+        cout << "CPU ID \"" << cpuId << "\" not found.\n";
+        return;
     }
     hashTable.remove(cpuFound, cpu, key_to_index);
     undoManager.addToUndoStack(cpuFound);

@@ -10,8 +10,8 @@ using namespace std;
 int findHashSize(const string &filename) {
     ifstream inputFile(filename);
 
-    if (!inputFile) {
-        cout << "Error opening the input file: \"" << filename << "\"" << endl;
+    if (!inputFile.good()) {
+        // cout << "Error opening the input file: \"" << filename << "\"" << endl;
         return -1;
     }
     // cout << "Reading data from \"" << filename << "\"" << endl;
@@ -32,9 +32,9 @@ void insertFile(const string &filename, BinarySearchTree<string> &bst, HashTable
     ifstream inputFile(filename);
     // cout << "Reading data from \"" << filename << "\"" << endl;
 
-    if (!inputFile) {
-        cout << "Error opening the input file: \"" << filename << "\"" << endl;
-        exit(EXIT_FAILURE);
+    if (!inputFile.good()) {
+        cout << "Error opening the input file: \"" << filename << "\". Skipping...\n";
+        return;
     }
 
     string line;
@@ -46,6 +46,13 @@ void insertFile(const string &filename, BinarySearchTree<string> &bst, HashTable
         stringstream temp(line);
 
         getline(temp, name, ';');
+
+        // check if the CPU is already in the hash table
+        CPU key(name, -1, -1, "", -1);
+        if (hash.search(key, key, key_to_index) != -1) {
+            cout << "Duplicate CPU \"" << name << "\" found in file. Skipping...\n";
+            continue;
+        }
 
         temp.ignore();
         getline(temp, strToNum, ';');
@@ -71,6 +78,7 @@ void insertFile(const string &filename, BinarySearchTree<string> &bst, HashTable
     }
 
     inputFile.close();
+    cout << "Data from file \"" << filename << "\" added.\n";
 }
 
 
