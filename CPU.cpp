@@ -52,10 +52,10 @@ void display(const CPU &cpu) {
     printTableFooter(widths);
 }
 
-void iDisplay(const CPU &cpu, int level) {
+void iDisplay(const string &cpuId, int level) {
     for (int i = 0; i < level; i++)
-        cout << "  ";
-    cout << cpu.cpuId << endl;
+        cout << "..";
+    cout << level << ")." << cpuId << endl;
 }
 
 void rowDisplay(const CPU &cpu, const vector<int> &widths) {

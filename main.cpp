@@ -122,7 +122,7 @@ void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<strin
             cout << "Longest collision path: " << cpuTable.getMaxCollisions() << std::endl;
             break;
         case 'P': // Print indented tree
-            throw std::logic_error("Not yet implemented: Print indented tree");
+            cpuTree.printTree(iDisplay);
             break;
         case 'Z': // Display names of team members
             printTeam();

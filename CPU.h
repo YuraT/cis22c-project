@@ -74,7 +74,7 @@ public:
 
 void display(const CPU &cpu);
 
-void iDisplay(const CPU &cpu, int level);
+void iDisplay(const string &cpuId, int level);
 
 void rowDisplay(const CPU &cpu, const std::vector<int> &widths);
 
