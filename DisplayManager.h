@@ -55,11 +55,20 @@ void DisplayManager<T>::displayTree() const {
             "Architecture",
             "Base Clock (GHz)"
     };
-    static const std::vector<int> widths = {20, 14, 12, 20, 18};
-    printTableHeader(widths, headers);
+    std::vector<int> widths = {20, 14, 12, 20, 18};
 
+    // Call the BST's inorder traversal method to calculate the column widths
+    bst->inOrder([this, &widths](const string &cpuId) {
+        CPU cpu;
+        cpu.setCpuId(cpuId);
+        this->hashTable->search(cpu, cpu, key_to_index);
+        widths[0] = max(cpu.getCpuId().length() + 2, (size_t) widths[0]);
+        widths[3] = max(cpu.getArchitecture().length() + 2, (size_t) widths[3]);
+    });
+
+    printTableHeader(widths, headers);
     // Call the BST's inorder traversal method to display the tree
-    bst->inOrder([this](const string &cpuId) {
+    bst->inOrder([this, &widths](const string &cpuId) {
         CPU cpu;
         cpu.setCpuId(cpuId);
         this->hashTable->search(cpu, cpu, key_to_index);

@@ -6,11 +6,14 @@ using namespace std;
 
 void display(const CPU &cpu) {
 
+    const int minTotalWidth = max((size_t) 38, cpu.cpuId.length() + 2);
+    // Calculate total width, make sure architecture fits
+    const vector<int> widths = {18, max(minTotalWidth - 19, (int) cpu.architecture.length() + 2)};
+    const int totalWidth = widths[0] + widths[1];
     // CPU ID
     // width is different because bold characters are counted but invisible
-    string boldCenteredCpuId = centeredStr(boldStr(cpu.cpuId), 46);
-    printTableHeader({39}, {boldCenteredCpuId});
-    static const vector<int> widths = {18, 20};
+    string boldCenteredCpuId = centeredStr(boldStr(cpu.cpuId), totalWidth + 8);
+    printTableHeader({totalWidth + 1}, {boldCenteredCpuId});
 
     // Release Year
     cout << "| ";
