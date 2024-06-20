@@ -32,7 +32,7 @@ public:
 
     // abstract functions to be implemented by derived class
     virtual void insert(const T& newData) = 0;
-    //virtual bool remove(const T &data) = 0;
+    virtual bool remove(const T &data) = 0;
     virtual bool search(const T& target, T& returnedItem) const = 0;
 
 private:
