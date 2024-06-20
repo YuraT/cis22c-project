@@ -28,7 +28,7 @@ public:
 
     void postOrder(void visit(const T&)) const { _postorder(visit, root); }
 
-    void printTree(void visit(const T&, int)) const { _printTree(visit, rootPtr, 1); }
+    void printTree(void visit(const T&, int)) const { _printTree(visit, root, 1); }
 
     // abstract functions to be implemented by derived class
     virtual void insert(const T& newData) = 0;
@@ -99,7 +99,7 @@ template<class T>
 void BinaryTree<T>::_printTree(void visit(const T&, int), BinaryTreeNode<T>* nodePtr, int level) const
 {
     if (nodePtr) {
-        ItemType item = nodePtr->getItem();
+        T item = nodePtr->getItem();
         visit(item, level);
         _printTree(visit, nodePtr->getRightPtr(), level + 1);
         _printTree(visit, nodePtr->getLeftPtr(), level + 1);
