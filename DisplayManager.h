@@ -1,3 +1,33 @@
+/*
+Name: DisplayManager
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Manage the display of CPU information and the binary search tree
+Input: HashTable and BinarySearchTree objects
+Output: Displayed CPU information and tree structure
+Procedure: Uses the HashTable and BinarySearchTree to retrieve and display information
+*/
+
+/*
+Name: displayAll
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Display all CPUs in the database
+Input: None
+Output: List of all CPUs sorted by their ID
+Procedure: Iterates through the HashTable and displays each CPU's information
+*/
+
+/*
+Name: displayTree
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Display the BST as an indented tree
+Input: None
+Output: Indented representation of the binary search tree
+Procedure: Performs an inorder traversal of the BST, displaying each node with appropriate indentation
+*/
+
 #ifndef DISPLAY_MANAGER_H
 #define DISPLAY_MANAGER_H
 

@@ -1,3 +1,63 @@
+/*
+Name: Stack
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Implement a generic stack data structure
+Input: Template parameter T for the type of elements stored in the stack
+Output: N/A
+Procedure: Uses a linked list of StackNodes to store elements in a Last-In-First-Out (LIFO) order
+*/
+
+/*
+Name: push
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Add an element to the top of the stack
+Input: Element of type T to be added
+Output: None
+Procedure: Creates a new StackNode with the input data and adds it to the top of the stack
+*/
+
+/*
+Name: pop
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Remove and return the top element from the stack
+Input: None
+Output: Element of type T that was at the top of the stack
+Procedure: Removes the top StackNode, returns its data, and updates the stack accordingly
+*/
+
+/*
+Name: peek
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Return the top element of the stack without removing it
+Input: None
+Output: Element of type T that is at the top of the stack
+Procedure: Returns the data of the top StackNode without modifying the stack
+*/
+
+/*
+Name: isEmpty
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Check if the stack is empty
+Input: None
+Output: Boolean indicating whether the stack is empty
+Procedure: Returns true if the stack contains no elements, false otherwise
+*/
+
+/*
+Name: getCount
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Get the number of elements in the stack
+Input: None
+Output: Integer representing the number of elements in the stack
+Procedure: Returns the count of elements currently in the stack
+*/
+
 #ifndef INC_08_TEAM_PROJECT_STACK_H
 #define INC_08_TEAM_PROJECT_STACK_H
 

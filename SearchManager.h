@@ -1,3 +1,24 @@
+/*
+Name: SearchManager
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Manage the search functionality for CPUs
+Input: HashTable object
+Output: Search results or error messages
+Procedure: Prompts user for search criteria, uses the HashTable to find matching CPUs, and displays results
+*/
+
+/*
+Name: searchCPU
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Search for a CPU by its ID
+Input: CPU ID (string)
+Output: CPU information if found, or a "not found" message
+Procedure: Uses the HashTable's search function to find the CPU, then displays its information
+*/
+
+
 #ifndef SEARCH_MANAGER_H
 #define SEARCH_MANAGER_H
 

@@ -1,3 +1,33 @@
+/*
+Name: UndoManager
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Manage the undo delete functionality
+Input: HashTable, BinarySearchTree, and Stack objects
+Output: Messages confirming undo operations
+Procedure: Uses a Stack to keep track of deleted CPUs and reinserts them when undoing a deletion
+*/
+
+/*
+Name: addToUndoStack
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Add a deleted CPU to the undo stack
+Input: CPU object
+Output: None
+Procedure: Pushes the deleted CPU onto the undo stack
+*/
+
+/*
+Name: undoDelete
+Written By: Kevin Galvan Serrano
+Modified By: 
+Purpose: Undo the most recent CPU deletion
+Input: None
+Output: Message confirming the undo operation
+Procedure: Pops a CPU from the undo stack and reinserts it into the HashTable and BinarySearchTree
+*/
+
 #ifndef UNDO_MANAGER_H
 #define UNDO_MANAGER_H
 
