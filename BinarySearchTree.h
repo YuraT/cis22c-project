@@ -1,3 +1,23 @@
+/* Unit 2: BST
+*
+* - Written in template format for flexibility
+*
+*   - In project, BST holds primary key of CPU IDs
+*
+* - Sorted based off string comparison
+*
+* - Has insert, search, and remove functionality
+*
+* - Has multiple transversal functions (inorder, preorder, postorder)
+*
+* - Has printTree function that prints all nodes in function
+*
+*   - In project, function pointer is used to print in indented format
+*
+* Written By: Tuhin Mondal
+*/
+
+
 #ifndef INC_08_TEAM_PROJECT_BINARYSEARCHTREE_H
 #define INC_08_TEAM_PROJECT_BINARYSEARCHTREE_H
 
