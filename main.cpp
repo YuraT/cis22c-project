@@ -139,10 +139,6 @@ void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<strin
 }
 
 void handleInsert(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree) {
-    if (hashTable.getLoadFactor() >= 75) {
-        cout << "Load factor is " << hashTable.getLoadFactor() << ". Rehashing...\n";
-        hashTable.reHash(key_to_index);
-    }
     insertCPU(tree, hashTable);
 }
 

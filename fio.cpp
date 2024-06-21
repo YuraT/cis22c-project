@@ -53,7 +53,6 @@ void insertFile(const string &filename, BinarySearchTree<string> &bst, HashTable
             cout << "Duplicate CPU \"" << name << "\" found in file. Skipping...\n";
             continue;
         }
-
         temp.ignore();
         getline(temp, strToNum, ';');
         releaseYear = stoi(strToNum);

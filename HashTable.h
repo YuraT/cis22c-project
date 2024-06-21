@@ -24,6 +24,8 @@ private:
     int hashSize;
     int count;
 
+    void _reHash(int h(const T &key, int size));
+
 public:
     HashTable() {
         count = 0;
@@ -58,8 +60,6 @@ public:
     bool remove(T &itemOut, const T &key, int h(const T &key, int size));
 
     int search(T &itemOut, const T &key, int h(const T &key, int size)) const;
-
-    void reHash(int h(const T &key, int size));
 
     friend void writeToFile<T>(const HashTable<T> &hashTable, const string &filename, string visit(const T &));
 };
@@ -98,8 +98,11 @@ int HashTable<T>::getMaxCollisions() const {
 *~**/
 template<typename T>
 bool HashTable<T>::insert(const T &itemIn, int h(const T &key, int size)) {
-    if (count == hashSize)
-        return false;
+
+    if (getLoadFactor() >= 75) {
+        cout << "Load factor is " << getLoadFactor() << ". Rehashing...\n";
+        _reHash(key_to_index);
+    }
 
     int ind = h(itemIn, hashSize);
     for (int i = 0; i < hashSize; i++) {
@@ -171,7 +174,7 @@ int HashTable<T>::search(T &itemOut, const T &key, int h(const T &key, int size)
 }
 
 template<class T>
-void HashTable<T>::reHash(int h(const T &key, int size)) {
+void HashTable<T>::_reHash(int h(const T &key, int size)) {
 
     int nHashSize = hashSize * 2;
 
@@ -187,7 +190,7 @@ void HashTable<T>::reHash(int h(const T &key, int size)) {
 
             int nIndex = h(aT, nHashSize);
 
-            for (int j = 0; j < hashSize; j++) {
+            for (int j = 0; j < nHashSize; j++) {
                 if (nHashAry[nIndex].getOccupied() != 1) {
                     nHashAry[nIndex].setItem(aT);
                     nHashAry[nIndex].setOccupied(1);
