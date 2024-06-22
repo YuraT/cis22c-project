@@ -40,14 +40,19 @@ public:
 
     [[nodiscard]] int getSize() const { return size; };
 
+    // Caller function for private destroyTree() method
     void clear() { destroyTree(root); root = 0; size = 0; }
 
+    // Caller function for private _preorder() method
     void preOrder(void visit(const T&)) const { _preorder(visit, root); }
 
+    // Caller function for private _inorder() method
     void inOrder(std::function<void(const T&)> visit) const { _inorder(visit, root); }
 
+    // Caller function for private _postorder() method
     void postOrder(void visit(const T&)) const { _postorder(visit, root); }
 
+    // Caller function for private _printTree() method
     void printTree(void visit(const T&, int)) const { _printTree(visit, root, 1); }
 
     // abstract functions to be implemented by derived class
@@ -70,6 +75,7 @@ private:
 
 };
 
+// Recursively deletes every node in the tree
 template<class T>
 void BinaryTree<T>::destroyTree(BinaryTreeNode<T>* nodePtr)
 {
@@ -81,6 +87,7 @@ void BinaryTree<T>::destroyTree(BinaryTreeNode<T>* nodePtr)
     }
 }
 
+// Traverses through tree in preorder
 template<typename T>
 void BinaryTree<T>::_preorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) const
 {
@@ -92,6 +99,7 @@ void BinaryTree<T>::_preorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) 
 	}
 }
 
+// Traverses through tree in inorder
 template<typename T>
 void BinaryTree<T>::_inorder(std::function<void(const T&)> visit, BinaryTreeNode<T>* nodePtr) const
 {
@@ -104,6 +112,7 @@ void BinaryTree<T>::_inorder(std::function<void(const T&)> visit, BinaryTreeNode
     }
 }
 
+// Traverses through tree in postorder
 template<typename T>
 void BinaryTree<T>::_postorder(void visit(const T&), BinaryTreeNode<T>* nodePtr) const
 {
@@ -115,6 +124,7 @@ void BinaryTree<T>::_postorder(void visit(const T&), BinaryTreeNode<T>* nodePtr)
     }
 }
 
+// Prints tree using function pointer
 template<class T>
 void BinaryTree<T>::_printTree(void visit(const T&, int), BinaryTreeNode<T>* nodePtr, int level) const
 {

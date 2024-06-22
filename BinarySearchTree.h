@@ -40,6 +40,7 @@ public:
     bool search(const T& target, T& returnedItem) const;
 };
 
+// Caller function for private _insert() method
 template<typename T>
 void BinarySearchTree<T>::insert(const T& newEntry)
 {
@@ -48,6 +49,7 @@ void BinarySearchTree<T>::insert(const T& newEntry)
     this->size++;
 }
 
+// Inserts and sorts a new node into BST
 template<typename T>
 BinaryTreeNode<T>* BinarySearchTree<T>::_insert(BinaryTreeNode<T>* nodePtr, BinaryTreeNode<T>* newNodePtr) {
     BinaryTreeNode<T>* pWalk = nodePtr, * parent = nullptr;
@@ -74,6 +76,7 @@ BinaryTreeNode<T>* BinarySearchTree<T>::_insert(BinaryTreeNode<T>* nodePtr, Bina
     return nodePtr;
 }
 
+// Caller function for private _remove() function
 template<typename T>
 bool BinarySearchTree<T>::remove(const T& item) {
     BinaryTreeNode<T>* removed = _remove(this->root, item);
@@ -84,6 +87,7 @@ bool BinarySearchTree<T>::remove(const T& item) {
     return false;
 }
 
+// Removes a node from BST
 template<typename T>
 BinaryTreeNode<T>* BinarySearchTree<T>::_remove(BinaryTreeNode<T>* nodePtr, const T& target) {
     BinaryTreeNode<T>* parNode = nullptr;
@@ -128,6 +132,7 @@ BinaryTreeNode<T>* BinarySearchTree<T>::_remove(BinaryTreeNode<T>* nodePtr, cons
     return nullptr;
 }
 
+// Caller function for private _search() function
 template<typename T>
 bool BinarySearchTree<T>::search(const T& target, T& returnedItem) const
 {
@@ -142,6 +147,7 @@ bool BinarySearchTree<T>::search(const T& target, T& returnedItem) const
     return false;
 }
 
+// Searches for a node and returns it if found.
 template<typename T>
 BinaryTreeNode<T>* BinarySearchTree<T>::_search(BinaryTreeNode<T>* nodePtr, const T& target) const
 {
