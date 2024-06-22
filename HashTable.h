@@ -1,3 +1,10 @@
+/*
+Joshiro Lawrence - Unit 3 (Hash Table)
+Wrote all functions in this file except for _reHash, writeToFile, and the code block of insert that deals with rehashing
+
+The purpose of the hash table in this project is to store the CPU objects. This allows for quick insertion, search, and removal into the hash table. Specifically, the hash table allows for quick searching in this program, to tell if a CPU object exists in the database already.
+*/
+
 #ifndef INC_08_TEAM_PROJECT_HASHTABLE_H
 #define INC_08_TEAM_PROJECT_HASHTABLE_H
 
@@ -173,6 +180,15 @@ int HashTable<T>::search(T &itemOut, const T &key, int h(const T &key, int size)
     return -1;
 }
 
+/*
+ * Name: reHash
+ * Written By: Kevin Cremin
+ * Modified By:
+ * Purpose: Increases the size of the Hash Table's array
+ * Input: Hash function
+ * Output: N/A
+ * Procedure: Creates a larger array, and then traverses the old array, rehashing each item into the new one.
+ */
 template<class T>
 void HashTable<T>::_reHash(int h(const T &key, int size)) {
 
@@ -207,6 +223,15 @@ void HashTable<T>::_reHash(int h(const T &key, int size)) {
     hashSize = nHashSize;
 }
 
+/*
+ * Name: writeToFile
+ * Written By: Kevin Cremin
+ * Modified By:
+ * Purpose: Outputs each item in the hash table into a file.
+ * Input: Name of the file, function
+ * Output: N/A
+ * Procedure: Checks if a bucket is in use, and outputs it into the file.
+ */
 template<typename T>
 void writeToFile(const HashTable<T> &hashTable, const string &filename, string visit(const T &)) {
     ofstream outputFile(filename);

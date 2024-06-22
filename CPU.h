@@ -1,3 +1,8 @@
+// CPU class
+//
+// Written by: Kevin Galvan Serrano
+// Modified by: Iurii Tatishchev
+
 #ifndef INC_08_TEAM_PROJECT_CPU_H
 #define INC_08_TEAM_PROJECT_CPU_H
 
@@ -72,19 +77,46 @@ public:
 
 };
 
+/*
+ * Display the CPU object as a table.
+ *
+ * Written by: Iurii Tatishchev
+ */
 void display(const CPU &cpu);
 
+/*
+ * Display the CPU object as part of an indented tree.
+ *
+ * Written by: Tuhin Mondal
+ */
 void iDisplay(const std::string &cpuId, int level);
 
+/*
+ * Display the CPU object as a table row.
+ *
+ * Written by: Iurii Tatishchev
+ */
 void rowDisplay(const CPU &cpu, const std::vector<int> &widths);
 
+/*
+ * Overload the << operator to display the CPU object.
+ *
+ * Written by: Iurii Tatishchev
+ */
 std::ostream &operator<<(std::ostream &os, const CPU &cpu);
 
 /*~*~*~*
- Hash function: takes the key and returns the index in the hash table
+ Hash function: takes the key and returns the index in the hash table.
+
+ Written by: Joshiro Lawrence
  *~**/
 int key_to_index(const CPU &key, int size);
 
+/*~*~*~*
+ Converts the CPU object to a string.
+
+ Written by: Iurii Tatishchev
+ *~**/
 std::string to_string(const CPU &cpu);
 
 #endif // INC_08_TEAM_PROJECT_CPU_H

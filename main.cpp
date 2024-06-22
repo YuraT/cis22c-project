@@ -24,6 +24,11 @@
 // The output file name does not have to be the same as the input file name,
 // but the file format must be the same so that it can be read back into the program.
 
+// Unit 1: Main
+// - Menu and input processing
+//
+// Written by: Iurii Tatishchev
+
 #include <iostream>
 #include <string>
 #include "utils.h"
@@ -40,6 +45,9 @@ using namespace std;
 
 const string DEFAULT_FILE = "out.txt";
 
+/*
+ * Takes a command character and calls the appropriate function to process the command.
+ */
 void processInput(char command, HashTable<CPU> &table, BinarySearchTree<string> &tree,
                   UndoManager<CPU> &undoManager, DisplayManager<CPU> &displayManager,
                   SearchManager<CPU> &searchManager);
@@ -68,7 +76,9 @@ int main() {
         cout << "Enter an option (H - for help): ";
         cin >> command;
         command = toupper(command, std::locale());
-        // Temporary try catch block to handle unimplemented commands
+        // Temporary try catch block to handle unimplemented commands.
+        // Actually, this catches exceptions like stoi (integer input too large)
+        // so I think leaving it is a good idea.
         try {
             processInput(command, cpuTable, cpuTree, undoManager, displayManager, searchManager);
         }
@@ -77,18 +87,31 @@ int main() {
         }
     }
     // Quit command received
-    writeToFile(cpuTable, DEFAULT_FILE, to_string);
     cout << "Exiting program...\n";
 
     return 0;
 }
 
+/*
+ * Input a new record into the table and tree.
+ */
 void handleInsert(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree);
 
+/*
+ * Input data from a file into the table and tree.
+ */
 void handleFileInput(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree);
 
+/*
+ * Delete a record from the table and tree.
+ * Also adds the deleted record to the undo stack.
+ */
 void deleteCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, UndoManager<CPU> &undoManager);
 
+/*
+ * Write data to a file.
+ * Also clears the undo stack.
+ */
 void handleFileOutput(HashTable<CPU> &hashTable, UndoManager<CPU> &undoManager);
 
 void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<string> &cpuTree,
@@ -121,9 +144,9 @@ void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<strin
             handleFileOutput(cpuTable, undoManager);
             break;
         case 'T': // Hashtable statistics
-            cout << "Load factor: " << cpuTable.getLoadFactor() << std::endl;
-            cout << "Total number of collisions: " << cpuTable.getTotalCollisions() << std::endl;
-            cout << "Longest collision path: " << cpuTable.getMaxCollisions() << std::endl;
+            cout << "Load factor: " << cpuTable.getLoadFactor() << '\n';
+            cout << "Total number of collisions: " << cpuTable.getTotalCollisions() << '\n';
+            cout << "Longest collision path: " << cpuTable.getMaxCollisions() << '\n';
             break;
         case 'P': // Print indented tree
             cpuTree.printTree(iDisplay);
@@ -132,6 +155,7 @@ void processInput(char command, HashTable<CPU> &cpuTable, BinarySearchTree<strin
             printTeam();
             break;
         case 'Q': // Quit
+            writeToFile(cpuTable, DEFAULT_FILE, to_string);
             break;
         default:
             cout << "Invalid command. Press 'H' to view available commands.\n";
@@ -158,7 +182,7 @@ void deleteCPU(HashTable<CPU> &hashTable, BinarySearchTree<string> &tree, UndoMa
 
     CPU cpu(cpuId, 0, 0, "", 0.0);
     CPU cpuFound;
-    if  (hashTable.search(cpuFound, cpu, key_to_index) == -1) {
+    if (hashTable.search(cpuFound, cpu, key_to_index) == -1) {
         cout << "CPU ID \"" << cpuId << "\" not found.\n";
         return;
     }

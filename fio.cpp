@@ -1,3 +1,10 @@
+// Unit 5: File I/O
+// - Determine hash size based on the number of records in the file
+// - Read data from the input file and insert them into the hash table and BST
+//
+// Written by: Kevin Cremin
+// Modified by: Iurii Tatishchev
+
 #include <sstream>
 #include "fio.h"
 
@@ -143,6 +150,15 @@ void insertCPU(BinarySearchTree<string> &bst, HashTable<CPU> &hash) {
     hash.insert(aCPU, key_to_index);
 }
 
+/*
+ * Name: isInteger
+ * Written By: Kevin Cremin
+ * Modified By:
+ * Purpose: Determine if input is an integer
+ * Input: String to test
+ * Output: Bool of whether input was an integer
+ * Procedure: Checks that all characters are digits.
+ */
 bool isInteger(const string &str) {
     for (int i = 0; i < str.length(); i++) {
         if (!(isdigit(str[i]))) {
@@ -153,6 +169,15 @@ bool isInteger(const string &str) {
     return true;
 }
 
+/*
+ * Name: isDouble
+ * Written By: Kevin Cremin
+ * Modified By:
+ * Purpose: Determine if input is a double
+ * Input: String to test
+ * Output: Bool of whether input was an double
+ * Procedure: Checks that all characters are digits and that there is at most one period.
+ */
 bool isDouble(const string &str) {
     int chance = 0;
 

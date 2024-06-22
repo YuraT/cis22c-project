@@ -58,16 +58,6 @@ void printTableFooter(const vector<int> &widths) {
     cout << "\b┘\n";
 }
 
-/*
- * Print ascii/unicode table with given column widths and data. For example:
- * ┌────────────────────────────────────────┬──────────┬────────────────────────┬────────────────┐
- * | Col1                                   | Col2     | Col3                   | Numeric Column |
- * +========================================+==========+========================+================+
- * | Value 1                                | Value 2  | 123                    | 10.0           |
- * | Separate                               | cols     | with a tab or 4 spaces | -2,027.1       |
- * | This is a row with only one cell       |          |                        |                |
- * └────────────────────────────────────────┴──────────┴────────────────────────┴────────────────┘
- */
 void printTable(const vector<int> &widths, const vector<vector<string>> &data) {
     printTableHeader(widths, data[0]);
     for (int i = 1; i < data.size(); i++) {
